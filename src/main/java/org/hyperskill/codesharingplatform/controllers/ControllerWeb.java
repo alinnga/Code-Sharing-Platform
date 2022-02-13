@@ -7,8 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 @Controller
+@RequestMapping("/code")
 public class ControllerWeb {
 
     @Autowired
@@ -17,16 +22,21 @@ public class ControllerWeb {
     @Autowired
     DateFormatter formatter;
 
-    @GetMapping("/code")
-    public String getHtmlPage(Model model){
-        Code code = codeStorage.getCode();
-        model.addAttribute("code", code);
+    @GetMapping("/{id}")
+    public String getHtmlPage(@PathVariable int id, Model model){
+        Code code = codeStorage.getSnippetById(id);
+        model.addAttribute("snippets", List.of(code));
         return "getCode";
     }
 
-    @GetMapping("/code/new")
+    @GetMapping("/new")
     public String createCode(){
         return "newCode";
+    }
+    @GetMapping("/latest")
+    public String get10LatestSnippets(Model model){
+        model.addAttribute("snippets",codeStorage.get10Latest());
+        return "getCode";
     }
 
 

@@ -4,26 +4,42 @@ import org.hyperskill.codesharingplatform.entities.Code;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public class CodeStorage {
 
-    private Code code;
+    private Map<Integer, Code> snippets;
+    int idGenerator = 0;
 
-    public CodeStorage() {
-        String codeStr = "default value";
-        LocalDateTime currentDate = LocalDateTime.now();
-        code = new Code(codeStr,currentDate, DateFormatter.format(currentDate));
+    CodeStorage(){
+        snippets = new HashMap<>();
     }
 
-    public Code getCode(){
+    public Code getSnippetById(int id){
 
-        return code;
+        return snippets.get(id);
     }
 
     public void setCode(Code code){
-        this.code.setContent(code.getContent());
-        this.code.setLocalDate(LocalDateTime.now());
-        this.code.setDate(DateFormatter.format(LocalDateTime.now()));
+        code.setDate(DateFormatter.format(LocalDateTime.now()));
+        code.setLocalDate(LocalDateTime.now());
+        snippets.put(++idGenerator, code);
+    }
+
+    public int getLatestId(){
+        return idGenerator;
+    }
+
+    public Map<Integer, Code> getSnippets() {
+        return snippets;
+    }
+    public List<Code> get10Latest() {
+        return snippets.values().stream()
+                .sorted()
+                .limit(10).collect(Collectors.toList());
     }
 }

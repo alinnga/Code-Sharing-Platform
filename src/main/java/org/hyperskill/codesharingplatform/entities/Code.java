@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Code {
+public class Code implements Comparable<Code>{
 
     @JsonProperty("code")
     private String content;
@@ -21,5 +21,10 @@ public class Code {
     private LocalDateTime localDate;
 
     private String date;
+
+    @Override
+    public int compareTo(Code code) {
+        return -this.getLocalDate().compareTo(code.getLocalDate());
+    }
 
 }

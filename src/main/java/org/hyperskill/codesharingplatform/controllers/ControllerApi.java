@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -15,17 +16,25 @@ public class ControllerApi{
     @Autowired
     CodeStorage codeStorage;
 
-    @GetMapping
-    public Code getCode(){
+    @GetMapping("/{id}")
+    public Code getCode(@PathVariable int id){
 
-        return codeStorage.getCode();
+        return codeStorage.getSnippetById(id);
     }
 
     @PostMapping("/new")
     public Map<String, String> createCode(@RequestBody Code code){
 
         codeStorage.setCode(code);
-        return new HashMap<>();
+        Map<String, String> result = new HashMap<>();
+        result.put("id", codeStorage.getLatestId()+"");
+        return result;
+    }
+
+    @GetMapping("/latest")
+    public List<Code> get10LatestSnippets(){
+
+        return codeStorage.get10Latest();
     }
 
 }
