@@ -1,11 +1,10 @@
 package org.hyperskill.codesharingplatform.controllers;
 
-import org.hyperskill.codesharingplatform.CodeStorage;
 import org.hyperskill.codesharingplatform.entities.Code;
+import org.hyperskill.codesharingplatform.services.CodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,27 +13,24 @@ import java.util.Map;
 public class ControllerApi{
 
     @Autowired
-    CodeStorage codeStorage;
+    CodeService codeService;
 
     @GetMapping("/{id}")
-    public Code getCode(@PathVariable int id){
+    public Code getCode(@PathVariable long id){
 
-        return codeStorage.getSnippetById(id);
+        return codeService.getSnippetById(id);
     }
 
     @PostMapping("/new")
     public Map<String, String> createCode(@RequestBody Code code){
 
-        codeStorage.setCode(code);
-        Map<String, String> result = new HashMap<>();
-        result.put("id", codeStorage.getLatestId()+"");
-        return result;
+        return codeService.setCode(code);
     }
 
     @GetMapping("/latest")
     public List<Code> get10LatestSnippets(){
 
-        return codeStorage.get10Latest();
+        return codeService.get10Latest();
     }
 
 }

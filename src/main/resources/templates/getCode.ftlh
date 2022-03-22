@@ -1,6 +1,10 @@
 <html>
     <head>
         <title>Code</title>
+        <link rel="stylesheet"
+            target="_blank" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/styles/default.min.css">
+        <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
     </head>
     <body>
         <div>
@@ -12,7 +16,7 @@
                                           height: 300px;
                                           word-wrap: break-word;
                                           word-break: break-word;
-                                          overflow: scroll">${code.content}</pre>
+                                          overflow: scroll"><code>${code.content}</code></pre>
           </#list>
         </div>
 
